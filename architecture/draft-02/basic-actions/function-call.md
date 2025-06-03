@@ -9,23 +9,35 @@ action creator and address possible questions regarding API style.
 
 ```ts
 /**
- * Pseudotype
- *
  * name: required;
  * optional jsonArgs || byteArgs, if both - error;
  * required tGas || gas, if both - error;
  * optional unitPayment || tokenPayment, if both - error;
  */
 
+type ByteArgs = Uint8Array | ArrayBuffer | Buffer;
+type Gas = bigint | string;
+type TGas = bigint | string;
+type UnitPayment = bigint | string;
+type TokenPayment = bigint | number | string;
+
+type FnArgs<JsonArgs> =
+  | { jsonArgs: JsonArgs; byteArgs?: never }
+  | { jsonArgs?: never; byteArgs: ByteArgs }
+  | { jsonArgs?: never; byteArgs?: never };
+
+type GasLimit = { gas?: never; tGas: TGas } | { gas: Gas; tGas?: never };
+
+type Payment =
+  | { unitPayment: UnitPayment; tokenPayment?: never }
+  | { unitPayment?: never; tokenPayment: TokenPayment }
+  | { unitPayment?: never; tokenPayment?: never };
+
 type FunctionCallAction<JsonArgs> = {
   name: string;
-  jsonArgs?: JsonArgs;
-  byteArgs?: Uint8Array | ArrayBuffer | Buffer;
-  tGas?: bigint | string;
-  gas?: bigint | string;
-  unitPayment?: bigint | string;
-  tokenPayment?: bigint | number | string;
-};
+} & FnArgs<JsonArgs> &
+  GasLimit &
+  Payment;
 ```
 
 ```ts
@@ -209,7 +221,7 @@ functionCall({
 const byteArgs = serializeBorshArgs({
   name: 'alice',
   message: 'Hello Near',
-})
+});
 
 functionCall({
   name: 'fn_with_borsh_args',

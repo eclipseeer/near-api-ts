@@ -9,13 +9,7 @@ const client = createNearClient({ network: mainnet });
 ```
 
 ```ts
-// 2. Fetch network config from outer source
-const network = await fetchMainnetConfig();
-const client = createNearClient({ network, logger: 'info' });
-```
-
-```ts
-// 3. Configure the client manually;
+// 2. Configure the client manually;
 const network = {
   rpcs: [ // or regular + + archive separate lists?
     {

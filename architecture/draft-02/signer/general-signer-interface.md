@@ -65,10 +65,10 @@ Signer types:
 - IndexedDB
 - OPFS
 - File
-- MPC
-- Wallet Selector?
+- Wallet Selector
+- MPC?
 - Iframe?
-- Інші....?
+- Others....?
 
 The creation processes are fully independent of one another — different createSigner invocations will produce different signatures.
 

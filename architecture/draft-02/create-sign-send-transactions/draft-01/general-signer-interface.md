@@ -16,18 +16,22 @@ type Signer = {
 
 ### Questions
 
-Do we need a general-purpose sign method that can sign any message and does not perform any data transformations, but simply returns a byte array?
+Q: Do we need a general-purpose sign method that can sign any message and does not perform any data transformations, but simply returns a byte array?
 - Pros: It allows signing anything without having to worry about supporting new message types.
 - Cons: The message being signed cannot be displayed to the user in a human-readable form (for example, in a wallet or on a ledger).
 
-⸻
+A: No, it will open an attack vector on the user
 
-Should we support signing an array of messages?
+--- 
+
+Q: Should we support signing an array of messages?
 There are common scenarios where multiple messages need to be signed together. The advantage of such a function is that the user doesn’t have to figure out whether to sign messages sequentially or in parallel. Different signer implementations may have different constraints, and we can hide that complexity from the user.
 
-⸻
+A: 
 
-Should we embed a signMessage method at the Signer level?
+---
+
+Q: Should we embed a signMessage method at the Signer level?
 NEP-413 specifies a way for wallets to sign authentication messages in the format:
 ```ts
 interface SignMessageParams {
@@ -53,6 +57,8 @@ interface SignMessage {
 }
 ```
 so that we know which key to use for signing. Is this acceptable?
+
+A: 
 
 --- 
 
